@@ -24,10 +24,10 @@ export default function TopBar() {
         try {
             const response = await axios.get(
                 `${import.meta.env.VITE_API_URL}/cart`,
-                { headers: { Authorization: `Bearer ${userToken}` } }
+                { headers: { authorization: `Bearer ${userToken}` } }
             );
-            setCart(response.data.cart);
-            console.log(cartItems);
+           
+            setCart(response.data);
         } catch (error) {
             console.log("Erro ao buscar carrinho:", error);
         }
@@ -96,8 +96,11 @@ export default function TopBar() {
                                 <span>Adicione produtos ao carrinho</span>
                             ) : (
                                 cartItems.map((item) => (
-                                    <CartItem key={item.id}>
+                                    <CartItem key={item._id}>
                                         {item.name}
+                                        <img src={item.picture}></img>
+
+                                        <button>Finalizar pedido</button>
                                     </CartItem>
                                 ))
                                 
@@ -202,6 +205,7 @@ const CartContainer = styled.article`
     display: flex;
     width: 340px;
     font-family: "Oswald";
+    
 `;
 
 const CartTooltip = styled.div`
@@ -211,6 +215,9 @@ const CartTooltip = styled.div`
     color: white;
     border-radius: 4px;
     border: 1px solid #0e3b4a;
+    display:flex;
+    flex-direction:column;
+    justify-content: space-between;
     border-radius: 10px;
     box-shadow: 0px 0px 300px (#02141a, 0px 0px 10px #0e3b4a inset);
     background: linear-gradient(#021419, #082d3a);
@@ -221,7 +228,11 @@ const CartTooltip = styled.div`
     }
 `;
 
-const CartItem = styled.div``;
+const CartItem = styled.div`
+    height: 80px;
+    background: white;
+
+`;
 
 const UserContainer = styled.article`
     position: absolute;
