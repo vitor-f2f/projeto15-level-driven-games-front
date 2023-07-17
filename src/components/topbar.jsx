@@ -30,7 +30,7 @@ export default function TopBar() {
                 `${import.meta.env.VITE_API_URL}/cart`,
                 { headers: { Authorization: `Bearer ${userToken}` } }
             );
-            setCart(response.data.cart);
+            setCart(response.data);
             
         } catch (error) {
             console.log("Erro ao buscar carrinho:", error);

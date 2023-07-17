@@ -39,7 +39,7 @@ export default function Game(props) {
         <h2 onClick={gamePage}>{name}</h2>
         <h3>{price}</h3>
       </section>
-      <button onClick={() => addtocart()} disabled={added}>
+      <button onClick={() => addtocart()} >
         {added ? "Produto adcionado ao carrinho" : "Adicionar ao Carrinho"}
       </button>
     </Container>

@@ -38,7 +38,7 @@ export default function Home() {
         setGames(answer.data);
         setBackup(answer.data);
         localStorage.setItem("backup", JSON.stringify(answer.data))
-        console.log(games);
+      
       })
       .catch((answer) => {
         console.log(answer);
