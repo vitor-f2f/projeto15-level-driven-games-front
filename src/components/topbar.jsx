@@ -24,17 +24,18 @@ export default function TopBar() {
     }
   }, [userToken]);
 
-  const getCart = async () => {
-    try {
-      const response = await axios.get(`${import.meta.env.VITE_API_URL}/cart`, {
-        headers: { Authorization: `Bearer ${userToken}` },
-      });
-      setCart(response.data.cart);
-      console.log(cartItems);
-    } catch (error) {
-      console.log("Erro ao buscar carrinho:", error);
-    }
-  };
+    const getCart = async () => {
+        try {
+            const response = await axios.get(
+                `${import.meta.env.VITE_API_URL}/cart`,
+                { headers: { Authorization: `Bearer ${userToken}` } }
+            );
+            setCart(response.data.cart);
+            
+        } catch (error) {
+            console.log("Erro ao buscar carrinho:", error);
+        }
+    };
 
   const hoverOnUser = () => {
     setShowUser(true);
@@ -52,89 +53,89 @@ export default function TopBar() {
         setShowCart(false);
     };
 
-  const getGame = (e) => {
-    e.preventDefault();
-    let game = backup.find((element) => element.name.includes(gameName));
-    if (!game) {
-      console.log(game);
-      console.log(backup);
-      return;
-    }
-    setGame(game);
-    navigate(`/game/${game._id}`);
-    console.log(game);
-  };
+    const getGame = (e) => {
+        e.preventDefault();
+        let game = backup.find((element) => element.name.includes(gameName));
+        if (!game) {
+          console.log(game);
+          console.log(backup);
+          return;
+        }
+        setGame(game);
+        navigate(`/game/${game._id}`);
+        console.log(game);
+      };
+    return (
+        <TopContainer>
+            <div>
+                
+                <Logo>
+                    <p>
+                        <Link to="/home">Level-Driven <br /> Games</Link>
+                    </p>
+                    <Link to="/home">
+                    <img src={dplus} alt="" /></Link>
+                </Logo>
+            
+                <Form>
+                    <input
+                        type="text"
+                        name="search"
+                        id="search"
+                        placeholder="Pesquisar..."
+                        value={gameName}
+                        onChange={(e) => {
+                            setGameName(e.target.value);
+                        }}
+                    ></input>
+                    <ion-icon 
+                        name="search-outline"
+                        onClick={getGame}
+                        type="submit"
+                    ></ion-icon>
+                </Form>
+                <article>
+                    <Link to="/account">
+                    <ion-icon
+                        name="person-outline"
+                        onMouseEnter={hoverOnUser}
+                        onMouseLeave={hoverOffUser}
+                    ></ion-icon></Link>
+                    <Link to="/product">
+                    <ion-icon
+                        name="cart-outline"
+                        onMouseEnter={hoverOnCart}
+                        onMouseLeave={hoverOffCart}
+                    ></ion-icon></Link>
+                </article>
+                <UserContainer>
+                    {showUser && <UserTooltip>
+                        <span>Informarções de usuário</span>
+                        </UserTooltip>}
+                </UserContainer>
+                <CartContainer>
+                    {showCart && (
+                        <CartTooltip>
+                            {cartItems.length === 0 ? (
+                                <span>Adicione produtos ao carrinho</span>
+                            ) : (
+                                cartItems.map((item) => (
+                                    <CartItem key={item._id}>
+                                        {item.name}
+                                        <img src={item.picture}></img>
 
-  return (
-    <TopContainer>
-      <div>
-        <Logo>
-          <p>
-            <Link to="/home">
-              Level-Driven <br /> Games
-            </Link>
-          </p>
-          <Link to="/home">
-            <img src={dplus} alt="" />
-          </Link>
-        </Logo>
-
-        <Form>
-          <input
-            type="text"
-            name="search"
-            id="search"
-            placeholder="Pesquisar..."
-            value={gameName}
-            onChange={(e) => {
-              setGameName(e.target.value);
-            }}
-          ></input>
-          <ion-icon
-            onClick={getGame}
-            type="submit"
-            name="search-outline"
-          ></ion-icon>
-        </Form>
-        <article>
-          <Link to="/account">
-            <ion-icon
-              name="person-outline"
-              onMouseEnter={hoverOnUser}
-              onMouseLeave={hoverOffUser}
-            ></ion-icon>
-          </Link>
-          <Link to="/product">
-            <ion-icon
-              name="cart-outline"
-              onMouseEnter={hoverOnCart}
-              onMouseLeave={hoverOffCart}
-            ></ion-icon>
-          </Link>
-        </article>
-        <UserContainer>
-          {showUser && (
-            <UserTooltip>
-              <span>Informarções de usuário</span>
-            </UserTooltip>
-          )}
-        </UserContainer>
-        <CartContainer>
-          {showCart && (
-            <CartTooltip>
-              {cartItems.length === 0 ? (
-                <span>Adicione produtos ao carrinho</span>
-              ) : (
-                cartItems.map((item) => (
-                  <CartItem key={item.id}>{item.name}</CartItem>
-                ))
-              )}
-            </CartTooltip>
-          )}
-        </CartContainer>
-      </div>
-    </TopContainer>
-  );
+                                        <button>Finalizar pedido</button>
+                                    </CartItem>
+                                ))
+                                
+                            )
+                            }
+                        </CartTooltip>
+                    )}
+                </CartContainer>
+            </div>
+        </TopContainer>
+    );
 }
 
 const TopContainer = styled.nav`
@@ -221,32 +222,39 @@ const Form = styled.form`
 `;
 
 const CartContainer = styled.article`
-  position: absolute;
-  top: 0px;
-  right: 48px;
-  display: flex;
-  width: 340px;
-  font-family: "Oswald";
+    position: absolute;
+    top: 0px;
+    right: 48px;
+    display: flex;
+    width: 340px;
+    font-family: "Oswald";
 `;
 
 const CartTooltip = styled.div`
-  position: absolute;
-  right: 20px;
-  top: 80px;
-  color: white;
-  border-radius: 4px;
-  border: 1px solid #0e3b4a;
-  border-radius: 10px;
-  box-shadow: 0px 0px 300px (#02141a, 0px 0px 10px #0e3b4a inset);
-  background: linear-gradient(#021419, #082d3a);
-  padding: 10px;
-  z-index: 10;
-  span {
-    text-align: center;
-  }
+    position: absolute;
+    right: 20px;
+    top: 80px;
+    color: white;
+    border-radius: 4px;
+    border: 1px solid #0e3b4a;
+    display:flex;
+    flex-direction:column;
+    justify-content: space-between;
+    border-radius: 10px;
+    box-shadow: 0px 0px 300px (#02141a, 0px 0px 10px #0e3b4a inset);
+    background: linear-gradient(#021419, #082d3a);
+    padding: 10px;
+    z-index: 10;
+    span {
+        text-align: center;
+    }
 `;
 
-const CartItem = styled.div``;
+const CartItem = styled.div`
+    height: 80px;
+    background: white;
+
+`;
 
 const UserContainer = styled.article`
   position: absolute;
