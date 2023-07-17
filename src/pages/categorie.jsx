@@ -3,26 +3,26 @@ import { styled } from "styled-components";
 
 export default function Categorie(props) {
   const { categorie, setFilters, filterSelected } = props;
-  const [isClicked, setClicked] = useState(false);
+  const [isClicked, setClicked] = useState("false");
 
   function toggleClick() {
-    if (isClicked === false) {
+    if (isClicked === "false") {
       let array = [...filterSelected];
       array.push(categorie);
       setFilters(array);
-      setClicked(true);
+      setClicked("true");
     } else {
       let array = [...filterSelected];
       let index = array.indexOf(categorie);
 
       array.splice(index, 1);
       setFilters(array);
-      setClicked(false);
+      setClicked("false");
     }
   }
   return (
     <li>
-      <CheckBox onClick={toggleClick} isClicked={isClicked}>
+      <CheckBox onClick={toggleClick} $isclicked={isClicked}>
         <ion-icon name="checkmark"></ion-icon>
       </CheckBox>
       {categorie}
@@ -41,7 +41,7 @@ const CheckBox = styled.div`
   box-sizing: border-box;
   cursor: pointer;
   ion-icon {
-    display: ${(props) => (props.isClicked === true ? "flex" : "none")};
+    display: ${(props) => (props.$isclicked === "true" ? "flex" : "none")};
     --ionicon-stroke-width: 64px;
     font-size: 25px;
     color: green;

@@ -1,15 +1,21 @@
+import { useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
 
 export default function Game(props) {
-  const { name, price, picture } = props.game;
+  const { name, price, picture, _id } = props.game;
+  const navigate = useNavigate();
+
+  const gamePage = () => {
+    navigate(`/game/${_id}`);
+  };
   return (
     <Container>
       <section>
         <figure>
-          <img src={picture} alt={name}></img>
+          <img onClick={gamePage} src={picture} alt={name}></img>
         </figure>
-        <h2>{name}</h2>
-        <h2>{price}</h2>
+        <h2 onClick={gamePage}>{name}</h2>
+        <h3>{price}</h3>
       </section>
       <button>Adicionar ao Carrinho</button>
     </Container>
@@ -32,9 +38,15 @@ const Container = styled.li`
     height: 140px;
     border-radius: 8px;
     margin-bottom: 10px;
+    cursor: pointer;
   }
 
   h2 {
+    cursor: pointer;
+  }
+
+  h2,
+  h3 {
     font-family: "Oswald", "Times New Roman";
     font-size: 14px;
     font-weight: 600;
@@ -60,7 +72,8 @@ const Container = styled.li`
     font-size: 12px;
     font-weight: 600;
     &:hover {
-      background-color: #ee0060;
+      border: 3px solid #ff4691;
+      background-color: #082d3a;
     }
   }
 `;
