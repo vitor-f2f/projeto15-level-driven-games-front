@@ -121,8 +121,8 @@ export default function TopBar() {
                             ) : (
                                 cartItems.map((item) => (
                                     <CartItem key={item._id}>
-                                        {item.name}
                                         <img src={item.picture}></img>
+                                        <h1>{item.name}<br/>{item.price}</h1>
 
                                         <button>Finalizar pedido</button>
                                     </CartItem>
@@ -240,6 +240,7 @@ const CartTooltip = styled.div`
     display:flex;
     flex-direction:column;
     justify-content: space-between;
+    align-items: center;
     border-radius: 10px;
     box-shadow: 0px 0px 300px (#02141a, 0px 0px 10px #0e3b4a inset);
     background: linear-gradient(#021419, #082d3a);
@@ -251,8 +252,12 @@ const CartTooltip = styled.div`
 `;
 
 const CartItem = styled.div`
-    height: 80px;
-    background: white;
+    height: 100px;
+
+    h1{
+        font-size:18px;
+    }
+    
 
 `;
 
