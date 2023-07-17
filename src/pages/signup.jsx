@@ -115,7 +115,7 @@ export default function SignUp() {
 
 const SignUpContainer = styled.div`
     background-color: #021419;
-    width: calc(100vw - 50px);
+    width: calc(100vw);
     min-height: 100vh;
     padding: 0 25px;
     display: flex;
