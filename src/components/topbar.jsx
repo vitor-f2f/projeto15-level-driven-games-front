@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import UserContext from "./usercontext";
 import dplus from "../assets/driven.svg";
@@ -51,12 +52,15 @@ export default function TopBar() {
     return (
         <TopContainer>
             <div>
+                
                 <Logo>
                     <p>
-                        Level-Driven <br /> Games
+                        <Link to="/home">Level-Driven <br /> Games</Link>
                     </p>
-                    <img src={dplus} alt="" />
+                    <Link to="/home">
+                    <img src={dplus} alt="" /></Link>
                 </Logo>
+            
                 <Form>
                     <input
                         type="text"
@@ -67,19 +71,23 @@ export default function TopBar() {
                     <ion-icon name="search-outline"></ion-icon>
                 </Form>
                 <article>
+                    <Link to="/account">
                     <ion-icon
                         name="person-outline"
                         onMouseEnter={hoverOnUser}
                         onMouseLeave={hoverOffUser}
-                    ></ion-icon>
+                    ></ion-icon></Link>
+                    <Link to="/product">
                     <ion-icon
                         name="cart-outline"
                         onMouseEnter={hoverOnCart}
                         onMouseLeave={hoverOffCart}
-                    ></ion-icon>
+                    ></ion-icon></Link>
                 </article>
                 <UserContainer>
-                    {showUser && <UserTooltip></UserTooltip>}
+                    {showUser && <UserTooltip>
+                        <span>Informarções de usuário</span>
+                        </UserTooltip>}
                 </UserContainer>
                 <CartContainer>
                     {showCart && (
@@ -92,7 +100,9 @@ export default function TopBar() {
                                         {item.name}
                                     </CartItem>
                                 ))
-                            )}
+                                
+                            )
+                            }
                         </CartTooltip>
                     )}
                 </CartContainer>
@@ -130,6 +140,7 @@ const TopContainer = styled.nav`
 
     article {
         height: 30px;
+        margin: 5px;
         gap: 10px;
         display: flex;
         align-items: center;
