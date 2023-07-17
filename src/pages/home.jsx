@@ -3,25 +3,71 @@ import Placeholder from "../components/placeholder";
 import { PagesContainer } from "../App";
 import { styled } from "styled-components";
 import Game from "./game";
+import axios from "axios";
+import Categorie from "./categorie";
 
 export default function Home() {
-  const [games, setGames] = useState([
-    {
-      name: "The Last of Us I",
-      img: "https://jovemnerd.com.br/wp-content/uploads/2022/11/the_last_of_us__2uy7m1.png",
-      price: "R$ 200,00",
-      id: "1",
-    },
-    {
-      name: "God of War 4",
-      img: " https://upload.wikimedia.org/wikipedia/pt/8/82/God_of_War_2018_capa.png",
-      price: "R$ 250,00",
-      id: "2",
-    },
-  ]);
+  const [games, setGames] = useState([]);
+  const [backup, setBackup] = useState([]);
+  const categories = [
+    "Ação",
+    "Aventura",
+    "RPG",
+    "Sandbox",
+    "Futurista",
+    "Esporte",
+    "Simulação",
+    "Corrida",
+    "Terror",
+    "FPS",
+    "Estratégia",
+  ];
+  const [filterSelected, setFilters] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(`${import.meta.env.VITE_API_URL}/games`, {
+        headers: {
+          authorization: `Bearer a2b009d1-c9dc-4852-860e-e06fbda4364d`,
+        },
+      })
+      .then((answer) => {
+        setGames(answer.data);
+        setBackup(answer.data);
+      })
+      .catch((answer) => {
+        console.log(answer);
+      });
+  }, []);
+
+  const filterGames = () => {
+    if (filterSelected.length === 0) return setGames(backup);
+    setGames(
+      backup.filter((game) =>
+        filterSelected.every((tag) => game.tags.includes(tag))
+      )
+    );
+  };
   return (
     <PagesContainer>
       <Content>
+        <Filter>
+          <div>
+            <ion-icon name="options-outline"></ion-icon>
+            <p>Filtros</p>
+          </div>
+          <ul>
+            {categories.map((categorie) => (
+              <Categorie
+                key={categorie}
+                categorie={categorie}
+                setFilters={setFilters}
+                filterSelected={filterSelected}
+              />
+            ))}
+          </ul>
+          <button onClick={() => filterGames(filterSelected)}>Filtrar</button>
+        </Filter>
         <ProductsContainer>
           <ul>
             {games.map((game) => (
@@ -34,15 +80,16 @@ export default function Home() {
   );
 }
 
-const Content = styled.div`
+const Content = styled.section`
   width: 100%;
   padding-top: 150px;
+  gap: 5px;
 
   display: flex;
   justify-content: center;
 `;
 
-const ProductsContainer = styled.section`
+const ProductsContainer = styled.article`
   width: 60%;
   padding: 30px;
 
@@ -58,11 +105,74 @@ const ProductsContainer = styled.section`
   }
 `;
 
-//Exemplo de um container de jogos baseado na cor roxa de fundo
-const exemple = styled.article`
-  width: 40%;
-  border: 1px solid #ac1495;
+const Filter = styled.article`
+  min-width: 240px;
+  max-width: 240px;
+  height: 100%;
+  margin-left: -240px;
+  padding: 15px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  border: 1px solid #0e3b4a;
   border-radius: 10px;
-  box-shadow: 0px 0px 300px #640f57, 0px 0px 10px #ac1495 inset;
-  background: linear-gradient(#640f57, #ac1495);
+  box-shadow: 0px 0px 300px (#02141a, 0px 0px 10px #0e3b4a inset);
+  background: linear-gradient(#021419, #082d3a);
+
+  & > div:first-child {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 15px;
+
+    font-family: "Oswald", "Times New Roman";
+    font-size: 22px;
+    font-weight: bold;
+    color: #fff;
+    text-align: left;
+    letter-spacing: 1px;
+
+    ion-icon {
+      font-size: 30px;
+      color: #fff;
+    }
+  }
+  ul {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    li {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      margin-bottom: 10px;
+    }
+
+    font-family: "Oswald", "Times New Roman";
+    font-size: 15px;
+    font-weight: 600;
+    color: #fff;
+    text-align: left;
+    letter-spacing: 1px;
+  }
+
+  button {
+    width: 70px;
+    height: 30px;
+
+    border: none;
+    border-radius: 5px;
+    background: #ff4791;
+
+    color: #fff;
+    font-family: "Oswald", "sans-serif";
+    font-size: 12px;
+    font-weight: 600;
+    align-self: start;
+    &:hover {
+      background-color: #ee0060;
+      cursor: pointer;
+    }
+  }
 `;
