@@ -1,15 +1,37 @@
+import axios from "axios";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
 
 export default function Game(props) {
-  const { name, price, picture, _id } = props.game;
+  const [added, setAdded] = useState(false);
+
+  const { name, price, picture,_id } = props.game;
   const navigate = useNavigate();
 
   const gamePage = () => {
     navigate(`/game/${_id}`);
   };
+
+  function addtocart() {
+    const obj = { productId: _id, name, price, picture };
+    const authorization = "Bearer " + localStorage.getItem("userToken");
+
+    const promise = axios.post(`${import.meta.env.VITE_API_URL}/cart`, obj, {
+      headers: { authorization },
+    });
+
+    promise.then((res) => {
+      console.log(res.data);
+      setAdded(true);
+    });
+
+    promise.catch((err) => {
+      alert(err.response.data);
+    });
+  }
   return (
-    <Container>
+    <Container added={added}>
       <section>
         <figure>
           <img onClick={gamePage} src={picture} alt={name}></img>
@@ -17,7 +39,9 @@ export default function Game(props) {
         <h2 onClick={gamePage}>{name}</h2>
         <h3>{price}</h3>
       </section>
-      <button>Adicionar ao Carrinho</button>
+      <button onClick={() => addtocart()} disabled={added}>
+        {added ? "Produto adcionado ao carrinho" : "Adicionar ao Carrinho"}
+      </button>
     </Container>
   );
 }
@@ -64,7 +88,7 @@ const Container = styled.li`
 
     border: none;
     border-radius: 8px;
-    background: #ff4791;
+    background: ${(props) => (props.added ? "#a0a0a0" : "#ff4791")};
     cursor: pointer;
 
     color: #fff;

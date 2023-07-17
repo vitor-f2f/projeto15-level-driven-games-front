@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import UserContext from "./usercontext";
 import dplus from "../assets/driven.svg";
@@ -47,9 +48,9 @@ export default function TopBar() {
     setShowCart(true);
   };
 
-  const hoverOffCart = () => {
-    setShowCart(false);
-  };
+    const hoverOffCart = () => {
+        setShowCart(false);
+    };
 
   const getGame = (e) => {
     e.preventDefault();
@@ -63,15 +64,21 @@ export default function TopBar() {
     navigate(`/game/${game._id}`);
     console.log(game);
   };
+
   return (
     <TopContainer>
       <div>
         <Logo>
           <p>
-            Level-Driven <br /> Games
+            <Link to="/home">
+              Level-Driven <br /> Games
+            </Link>
           </p>
-          <img src={dplus} alt="dplus" />
+          <Link to="/home">
+            <img src={dplus} alt="" />
+          </Link>
         </Logo>
+
         <Form>
           <input
             type="text"
@@ -82,7 +89,6 @@ export default function TopBar() {
             onChange={(e) => {
               setGameName(e.target.value);
             }}
-            required
           ></input>
           <ion-icon
             onClick={getGame}
@@ -91,18 +97,28 @@ export default function TopBar() {
           ></ion-icon>
         </Form>
         <article>
-          <ion-icon
-            name="person-outline"
-            onMouseEnter={hoverOnUser}
-            onMouseLeave={hoverOffUser}
-          ></ion-icon>
-          <ion-icon
-            name="cart-outline"
-            onMouseEnter={hoverOnCart}
-            onMouseLeave={hoverOffCart}
-          ></ion-icon>
+          <Link to="/account">
+            <ion-icon
+              name="person-outline"
+              onMouseEnter={hoverOnUser}
+              onMouseLeave={hoverOffUser}
+            ></ion-icon>
+          </Link>
+          <Link to="/product">
+            <ion-icon
+              name="cart-outline"
+              onMouseEnter={hoverOnCart}
+              onMouseLeave={hoverOffCart}
+            ></ion-icon>
+          </Link>
         </article>
-        <UserContainer>{showUser && <UserTooltip></UserTooltip>}</UserContainer>
+        <UserContainer>
+          {showUser && (
+            <UserTooltip>
+              <span>Informarções de usuário</span>
+            </UserTooltip>
+          )}
+        </UserContainer>
         <CartContainer>
           {showCart && (
             <CartTooltip>
@@ -148,16 +164,16 @@ const TopContainer = styled.nav`
     width: 51px;
   }
 
-  article {
-    height: 30px;
-    gap: 10px;
-    display: flex;
-    align-items: center;
+    article {
+        height: 30px;
+        gap: 10px;
+        display: flex;
+        align-items: center;
 
-    ion-icon {
-      size: 40px;
+        ion-icon {
+            size: 40px;
+        }
     }
-  }
 `;
 
 const Logo = styled.div`
