@@ -8,7 +8,6 @@ const [added,setAdded] = useState(false);
   const { name, price, picture,_id } = props.game;
 
   function addtocart(){
-    //console.log({productId:_id,name,price,picture})
 
     const obj = {productId:_id,name,price,picture};
     const authorization = 'Bearer '+localStorage.getItem('userToken');
