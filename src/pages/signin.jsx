@@ -3,8 +3,10 @@ import React, { useState, useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import dplus from "../assets/driven.svg";
+import UserContext from "../components//usercontext.js";
 
 export default function SignIn() {
+    const { setUserData } = useContext(UserContext);
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
 
@@ -64,6 +66,16 @@ export default function SignIn() {
             });
     }
 
+    useEffect(() => {
+        const userToken = localStorage.getItem("userToken");
+        const userName = localStorage.getItem("userName");
+
+        if (userToken) {
+            setUserData({ userToken, userName });
+            navigate("/home");
+        }
+    }, [setUserData, navigate]);
+
     return (
         <SignInContainer>
             <Logo>
@@ -96,7 +108,7 @@ export default function SignIn() {
 
 const SignInContainer = styled.div`
     background-color: #021419;
-    width: calc(100vw - 50px);
+    width: calc(100vw);
     min-height: 100vh;
     padding: 0 25px;
     display: flex;
