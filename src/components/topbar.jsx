@@ -1,29 +1,35 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
 import UserContext from "./usercontext";
+import dplus from "../assets/driven.svg";
 
 export default function TopBar() {
-  const { userData } = useContext(UserContext);
-  return (
-    <TopContainer>
-      <div>
-        <span>Level-Driven Games</span>
-        <Form>
-          <input
-            type="text"
-            name="search"
-            id="search"
-            placeholder="Pesquisar..."
-          ></input>
-          <ion-icon name="search-outline"></ion-icon>
-        </Form>
-        <article>
-          <ion-icon name="cart-outline"></ion-icon>
-          <ion-icon name="person-outline"></ion-icon>
-        </article>
-      </div>
-    </TopContainer>
-  );
+    const { userData } = useContext(UserContext);
+    return (
+        <TopContainer>
+            <div>
+                <Logo>
+                    <p>
+                        Level-Driven <br /> Games
+                    </p>
+                    <img src={dplus} alt="" />
+                </Logo>
+                <Form>
+                    <input
+                        type="text"
+                        name="search"
+                        id="search"
+                        placeholder="Pesquisar..."
+                    ></input>
+                    <ion-icon name="search-outline"></ion-icon>
+                </Form>
+                <article>
+                    <ion-icon name="cart-outline"></ion-icon>
+                    <ion-icon name="person-outline"></ion-icon>
+                </article>
+            </div>
+        </TopContainer>
+    );
 }
 
 const TopContainer = styled.nav`
@@ -63,6 +69,26 @@ const TopContainer = styled.nav`
       size: 40px;
     }
   }
+`;
+
+const Logo = styled.div`
+    max-width: 215px;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    justify-content: center;
+    p {
+        color: white;
+        text-align: center;
+        font-family: "Oswald";
+        font-size: 24px;
+        font-weight: 600;
+    }
+    img {
+        width: 90px;
+        margin-right: 0px;
+        border-radius: 0px;
+    }
 `;
 
 const Form = styled.form`
