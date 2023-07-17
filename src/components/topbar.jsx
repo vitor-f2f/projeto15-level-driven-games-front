@@ -5,8 +5,9 @@ import dplus from "../assets/driven.svg";
 import axios from "axios";
 
 export default function TopBar() {
-    const { userData } = useContext(UserContext);
+    const { userData, setUserData } = useContext(UserContext);
     const userToken = localStorage.getItem("userToken");
+    const userName = localStorage.getItem("userName");
 
     const [cartItems, setCart] = useState([]);
     const [userBalance, setBalance] = useState(0);
@@ -26,7 +27,12 @@ export default function TopBar() {
                 { headers: { Authorization: `Bearer ${userToken}` } }
             );
             setCart(response.data.cart);
-            console.log(cartItems);
+            setBalance(response.data.balance);
+            setUserData({
+                ...userData,
+                balance: response.data.balance,
+                cart: response.data.cart,
+            });
         } catch (error) {
             console.log("Erro ao buscar carrinho:", error);
         }
