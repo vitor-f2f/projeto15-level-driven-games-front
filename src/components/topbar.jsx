@@ -60,7 +60,7 @@ const TopContainer = styled.nav`
     align-items: center;
 
     ion-icon {
-      size: 100%;
+      size: 40px;
     }
   }
 `;
